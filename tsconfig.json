@@ -1,0 +1,35 @@
+{
+  "files": [],
+  //  "references": [
+  //    { "path": "./tsconfig.app.json"},
+  //    { "path": "./tsconfig.node.json"}
+  //  ],
+
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "Node",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "types": ["vite/client", "node"],
+  },
+  "include": ["src/**/*", "vite.config.ts", "shims-vue.d.ts"],
+  "exclude": ["node_modules", "dist"]
+}
