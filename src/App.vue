@@ -1,22 +1,50 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import formItem from "../src/components/inputs-block/form-adding-costs.vue";
+import listItem from "../src/components/list-block/list-block.vue";
+import totalCostsBlock from "../src/components/total-costs-block/total-costs-block.vue";
+import { onMounted, ref, watch } from "vue";
+import { Notify } from "notiflix";
+
+let items = ref<string[][]>([]);
+
+function handleData(newItem: string[]) {
+	items.value = [...items.value, newItem];
+}
+
+function deleteItem(index: number) {
+	items.value.splice(index, 1);
+	Notify.info("Витрата успішно видалена");
+}
+
+function setDataStorage(itemsArray: string[][]): void {
+	localStorage.setItem("items", JSON.stringify(itemsArray));
+}
+
+function getDataStorage(): string[][] {
+	const storage = localStorage.getItem("items");
+	if (!storage) return [];
+	return JSON.parse(storage);
+}
+
+onMounted(() => (items.value = getDataStorage()));
+
+watch(
+	() => items.value,
+	itemsArr => {
+		setTimeout(() => setDataStorage(itemsArr), 0);
+	},
+	{ immediate: true, deep: true }
+);
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+	<main>
+		<form-item @form-submitted="handleData" />
+		<list-item
+			:items-arr="items"
+			@delete-item="deleteItem" />
+		<total-costs-block :items-arr-sum="items" />
+	</main>
 </template>
 
-<style scoped>
-@import "scss/bootstrap.scss";
-</style>
+<style scoped lang="scss"></style>
